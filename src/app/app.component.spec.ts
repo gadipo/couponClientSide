@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'newCouponWebsite'`, () => {
+  it(`should have as title 'myCouponWebsite'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('newCouponWebsite');
+    expect(app.title).toEqual('myCouponWebsite');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('newCouponWebsite app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('myCouponWebsite app is running!');
   });
 });
