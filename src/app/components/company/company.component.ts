@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormControl } from '@angular/forms';
 import { Category } from 'src/app/models/category.enum';
 import { Coupon } from 'src/app/models/coupon';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -34,7 +34,7 @@ export class CompanyComponent implements OnInit {
   keys = Object.keys(this.categoryList);
 
   today: Date = new Date();
-  
+
 
   ngOnInit(): void {
     this.addCouponForm = this.fb.group({
@@ -42,8 +42,8 @@ export class CompanyComponent implements OnInit {
       category: ['', Validators.required],
       description: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(1)]],
-      startDate: ['', [Validators.required,this.pastValidator]],
-      endDate: ['', [Validators.required,this.endDateValidator]],
+      startDate: ['', [Validators.required, this.pastValidator]],
+      endDate: ['', [Validators.required, this.endDateValidator]],
       amount: ['', [Validators.required, Validators.min(1)]],
       image: ['']
     });
@@ -186,19 +186,22 @@ export class CompanyComponent implements OnInit {
 
   pastValidator(control: AbstractControl) {
     let yesterday = new Date();
-    yesterday.setDate(yesterday.getDate()-1);
+    yesterday.setDate(yesterday.getDate() - 1);
     let startDate = new Date(control.value);
     if (yesterday > startDate) {
       return { pastError: true };
     }
   }
 
-  endDateValidator(control: AbstractControl){
-    let endDate = control.value;
-    let startDate = new Date();
-    if(endDate<startDate){
-      return {eDateError:true};
+  endDateValidator(control: AbstractControl) {
+    if (control.parent) {
+      let endDate = control.value;
+      let startDate = control.parent.get('startDate');
+      if (endDate < startDate) {
+        return { eDateError: true };
+      }
     }
   }
 
 }
+
