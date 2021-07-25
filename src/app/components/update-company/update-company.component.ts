@@ -45,7 +45,6 @@ export class UpdateCompanyComponent implements OnInit {
   showSnack() {
     let snackRef = this.snack.open(this.messageForUser, "close", { duration: 2000 });
     snackRef.onAction().subscribe(() => {
-      //do your stuff here !
       this.snack.dismiss();
     })
   }

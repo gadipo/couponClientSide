@@ -10,7 +10,6 @@ import { Company } from 'src/app/models/company';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanyDetailsComponent } from '../company-details/company-details.component';
 
-
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
@@ -43,7 +42,7 @@ export class CompanyComponent implements OnInit {
       description: ['', Validators.required],
       price: ['', [Validators.required, Validators.min(1)]],
       startDate: ['', [Validators.required, this.pastValidator]],
-      endDate: ['', [Validators.required, this.endDateValidator]],
+      endDate: ['', [Validators.required]],
       amount: ['', [Validators.required, Validators.min(1)]],
       image: ['']
     });
@@ -53,6 +52,7 @@ export class CompanyComponent implements OnInit {
       searchCat: ['', Validators.required],
       searchMaxPrice: ['', [Validators.required, Validators.min(1)]]
     });
+
   }
 
   searchCoupons() {
@@ -193,15 +193,6 @@ export class CompanyComponent implements OnInit {
     }
   }
 
-  endDateValidator(control: AbstractControl) {
-    if (control.parent) {
-      let endDate = control.value;
-      let startDate = control.parent.get('startDate');
-      if (endDate < startDate) {
-        return { eDateError: true };
-      }
-    }
-  }
 
 }
 

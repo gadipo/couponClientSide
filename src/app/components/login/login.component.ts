@@ -9,6 +9,7 @@ import { CustomerService } from 'src/app/services/customer.service';
 import { CompanyComponent } from '../company/company.component';
 import { CustomerComponent } from '../customer/customer.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ToolbarComponent } from '../toolbar/toolbar.component';
 
 @Component({
   selector: 'app-login',
@@ -17,14 +18,15 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private service: LoginService, private router: Router, private dialogRef: MatDialogRef<LoginComponent>) { }
+  constructor(private fb: FormBuilder,  private service: LoginService,
+    private router: Router, private dialogRef: MatDialogRef<LoginComponent>) { }
 
   loginForm: FormGroup;
 
   errorMessage: string;
-  
+
   hide = true;
-  
+
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,11 +34,11 @@ export class LoginComponent implements OnInit {
       client: ['', Validators.required]
     });
   }
-  
+
   public login() {
     this.service.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value,
-    this.loginForm.controls['client'].value).subscribe((token) => {
-      LoginService.userName = "jlhl";
+      this.loginForm.controls['client'].value).subscribe((token) => {
+        // this.toolbar.userName = "jlhl";
         sessionStorage.setItem('userId', token);
         this.service.loggedIn = true;
         switch (this.loginForm.controls['client'].value) {
@@ -63,7 +65,7 @@ export class LoginComponent implements OnInit {
     this.service.logout().subscribe((res) => {
       sessionStorage.removeItem('userId');
       this.service.loggedIn = false;
-      LoginService.userName = '';
+      // this.toolbar.userName = '';
       alert(res);
       this.router.navigate(["main"]);
     }, (err) => {

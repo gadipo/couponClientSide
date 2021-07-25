@@ -29,6 +29,8 @@ export class UpdateCoupon2Component implements OnInit {
 
   updateCouponMessage: string;
 
+  defaultImage: string = "assets/placeholder-image.jpg";
+
   today: string = new Date().toJSON().split('T')[0];
 
   ngOnInit(): void {
@@ -44,10 +46,22 @@ export class UpdateCoupon2Component implements OnInit {
   }
 
   updateCoupon() {
+    let startDate = this.updateCouponForm.controls['startDate'].value;
+    if (startDate < this.today) {
+      alert('can not pick a start date before today !')
+      return;
+    }
+    let endDate = this.updateCouponForm.controls['endDate'].value;
+    if (endDate < startDate) {
+      alert('can not pick an end date sooner than the start date !')
+      return;
+    }
+    let image = this.updateCouponForm.controls['image'].value;
+    if (image == null || image == '' || image == undefined) { image = this.defaultImage }
     let coupon = new Coupon(this.coupon.id,this.updateCouponForm.controls['title'].value,this.coupon.category,
     this.updateCouponForm.controls['description'].value,this.updateCouponForm.controls['price'].value,this.coupon.company,
-    this.updateCouponForm.controls['startDate'].value,this.updateCouponForm.controls['endDate'].value,this.updateCouponForm.controls['amount'].value,
-    this.updateCouponForm.controls['image'].value);
+    startDate,endDate,this.updateCouponForm.controls['amount'].value,
+    image);
     this.service.updateCoupon(coupon).subscribe((res) => {
       this.coupon = coupon;
       this.updateCouponMessage = res;

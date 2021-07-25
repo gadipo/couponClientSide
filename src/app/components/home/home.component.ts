@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { LoginComponent } from '../login/login.component';
+import * as angular from "angular";
+
+
 
 @Component({
   selector: 'app-home',

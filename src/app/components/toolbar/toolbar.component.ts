@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { CompanyService } from 'src/app/services/company.service';
@@ -17,9 +17,15 @@ export class ToolbarComponent implements OnInit {
   
   constructor(public loginService:LoginService, private router:Router) { }
   
-  userName:string = LoginService.userName;
-
+//   ngAfterContentChecked() {
+//     this.cdr.detectChanges();
+// }
+  
+  userName:string;
+  
   ngOnInit(): void {
+    console.log(this.loginService)
+    console.log(this.userName)
   }
 
   logout(){

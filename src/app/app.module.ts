@@ -19,6 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {NgParticlesModule} from "ng-particles";
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -83,6 +84,7 @@ import { HomeComponent } from './components/home/home.component';
     MatDialogModule,
     FormsModule,
     MatTabsModule,
+    NgParticlesModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true }

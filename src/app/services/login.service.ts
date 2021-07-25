@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ClientType } from '../models/client-type.enum';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ export class LoginService {
   // a simple verfication of the token in order to display/hide logout button
   loggedIn: boolean = this.token != null && this.token.length > 10;
 
-  static userName:string;
+  // userName:string = "username";
 
   constructor(private client: HttpClient) { }
 
@@ -26,4 +26,9 @@ export class LoginService {
   logout() {
     return this.client.get("http://localhost:8080/login/logout/" + this.token, { responseType: 'text' });
   }
+
+  // setUsername(username: string) {
+  //   this.userName = username;
+  // }
+  
 }
