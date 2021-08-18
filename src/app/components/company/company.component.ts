@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors, FormControl, FormGroupDirective } from '@angular/forms';
 import { Category } from 'src/app/models/category.enum';
 import { Coupon } from 'src/app/models/coupon';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -118,7 +118,7 @@ export class CompanyComponent implements OnInit {
     });
   }
 
-  addCoupon() {
+  addCoupon(formDirective:FormGroupDirective) {
     let title = this.addCouponForm.controls['title'].value;
     let cat = this.addCouponForm.controls['category'].value;
     let description = this.addCouponForm.controls['description'].value;
@@ -140,7 +140,7 @@ export class CompanyComponent implements OnInit {
     this.service.addCoupon(coupon).subscribe((res) => {
       this.messageForUser = res;
       this.showSnack();
-      this.formReset(this.addCouponForm);
+      this.formReset(this.addCouponForm,formDirective);
     }, (err) => {
       alert(err.error);
       console.log(err.error);
@@ -155,13 +155,10 @@ export class CompanyComponent implements OnInit {
     const dialogRef = this.dialog.open(CompanyDetailsComponent, dialogConfig);
   }
 
-  formReset(form: FormGroup) {
-
+  formReset(form: FormGroup, formDirective:FormGroupDirective) {
+    formDirective.resetForm();
     form.reset();
 
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).setErrors(null);
-    });
   }
 
   openImage(coupon: Coupon) {

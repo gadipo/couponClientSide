@@ -3,11 +3,12 @@ import { AdminService } from 'src/app/services/admin.service';
 import { Customer } from 'src/app/models/customer';
 import { Company } from 'src/app/models/company';
 import { Coupon } from 'src/app/models/coupon';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { UpdateCompanyComponent } from '../update-company/update-company.component';
 import { UpdateCustomerComponent } from '../update-customer/update-customer.component';
+import { invalid } from '@angular/compiler/src/render3/view/util';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +17,7 @@ import { UpdateCustomerComponent } from '../update-customer/update-customer.comp
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private service: AdminService, private fb: FormBuilder, private snack: MatSnackBar, private dialog:MatDialog) { }
+  constructor(private service: AdminService, private fb: FormBuilder, private snack: MatSnackBar, private dialog: MatDialog) { }
 
   customers: Customer[];
   companies: Company[];
@@ -28,7 +29,7 @@ export class AdminComponent implements OnInit {
   addCustomerForm: FormGroup;
   searchCustomerForm: FormGroup;
 
-  
+
 
   messageForUser: string;
 
@@ -48,19 +49,19 @@ export class AdminComponent implements OnInit {
     });
 
     this.searchCompanyForm = this.fb.group({
-      email: ['',Validators.email]
+      email: ['', Validators.email]
     });
 
     this.searchCustomerForm = this.fb.group({
-      email: ['',Validators.email]
+      email: ['', Validators.email]
     });
 
-   
+
   }
 
   searchCompanies() {
-    if (this.searchCompanyForm.controls['email'].value == ''||this.searchCompanyForm.controls['email'].value ==null) {
-    // if (this.companyEmail == '' || this.companyEmail == null || this.companyEmail == undefined) {
+    if (this.searchCompanyForm.controls['email'].value == '' || this.searchCompanyForm.controls['email'].value == null) {
+      // if (this.companyEmail == '' || this.companyEmail == null || this.companyEmail == undefined) {
       this.service.getAllCompanies().subscribe((comps) => {
         this.companies = comps;
         this.messageForUser = null;
@@ -70,7 +71,7 @@ export class AdminComponent implements OnInit {
       });
     } else {
       this.service.getCompanyByEmail(this.searchCompanyForm.controls['email'].value).subscribe((res) => {
-      // this.service.getCompanyByEmail(this.companyEmail).subscribe((res) => {
+        // this.service.getCompanyByEmail(this.companyEmail).subscribe((res) => {
         this.companies = new Array(1);
         this.companies[0] = res;
         this.messageForUser = null;
@@ -83,7 +84,7 @@ export class AdminComponent implements OnInit {
   }
 
   searchCustomers() {
-    if (this.searchCustomerForm.controls['email'].value == ''||this.searchCustomerForm.controls['email'].value == null) {
+    if (this.searchCustomerForm.controls['email'].value == '' || this.searchCustomerForm.controls['email'].value == null) {
       this.service.getAllCustomers().subscribe((cusz) => {
         this.customers = cusz;
         this.messageForUser = null;
@@ -164,26 +165,26 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  addCompany() {
+  addCompany(formDirective: FormGroupDirective) {
     let c = new Company(0, this.addCompanyForm.controls['name'].value, this.addCompanyForm.controls['password'].value,
       this.addCompanyForm.controls['email'].value, null)
     this.service.addCompany(c).subscribe((res) => {
       this.messageForUser = res;
       this.showSnack();
-      this.formReset(this.addCompanyForm);
+      this.formReset(this.addCompanyForm, formDirective);
     }, (err) => {
       this.messageForUser = err.error;
       alert(err.error);
     });
   }
 
-  addCustomer() {
+  addCustomer(formDirective: FormGroupDirective) {
     let c = new Customer(0, this.addCustomerForm.controls['firstName'].value, this.addCustomerForm.controls['lastName'].value,
       this.addCustomerForm.controls['email'].value, this.addCustomerForm.controls['password'].value, null)
     this.service.addCustomer(c).subscribe((res) => {
       this.messageForUser = res;
       this.showSnack();
-      this.formReset(this.addCustomerForm);
+      this.formReset(this.addCustomerForm, formDirective);
     }, (err) => {
       this.messageForUser = err.error;
       alert(err.error);
@@ -198,13 +199,11 @@ export class AdminComponent implements OnInit {
     })
   }
 
-  formReset(form: FormGroup) {
+  formReset(form: FormGroup, formDirective: FormGroupDirective) {
 
+    formDirective.resetForm();
     form.reset();
 
-    Object.keys(form.controls).forEach(key => {
-      form.get(key).setErrors(null) ;
-    });
-}
+  }
 
 }

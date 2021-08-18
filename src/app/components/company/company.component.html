@@ -58,7 +58,7 @@
     <mat-tab label="Add Coupons">
         <!-- Add Coupon -->
         <h2>Add a Coupon</h2>
-        <form [formGroup]="addCouponForm">
+        <form [formGroup]="addCouponForm" (ngSubmit)="addCoupon(formDirective)" #formDirective="ngForm">
             <mat-form-field appearance="outline">
                 <mat-label>Title</mat-label>
                 <input type="text" matInput formControlName="title" required>
@@ -105,7 +105,7 @@
                 <mat-label>Image</mat-label>
                 <input type="text" matInput maxlength="255" formControlName="image">
             </mat-form-field><br>
-            <button mat-raised-button [disabled]="!addCouponForm.valid" (click)="addCoupon()">Add Coupon</button>
+            <button type="submit" mat-raised-button [disabled]="!addCouponForm.valid">Add Coupon</button>
             <br><br>
         </form>
     </mat-tab>

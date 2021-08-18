@@ -36,10 +36,11 @@ import { UserDetailsComponent } from './components/user-details/user-details.com
 import { CustomerDetailsComponent } from './components/customer-details/customer-details.component';
 import { CouponDisplayComponent } from './components/coupon-display/coupon-display.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { ErrorHandlerInterceptor } from './error-handler.interceptor';
+import { ErrorHandlerInterceptor } from './httpInterceptors/error-handler.interceptor';
 import { UpdateCompanyComponent } from './components/update-company/update-company.component';
 import { UpdateCustomerComponent } from './components/update-customer/update-customer.component';
 import { HomeComponent } from './components/home/home.component';
+import { LocalhostInterceptor } from './httpInterceptors/localhost.interceptor';
 
 
 
@@ -87,7 +88,8 @@ import { HomeComponent } from './components/home/home.component';
     NgParticlesModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LocalhostInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -90,7 +90,7 @@
     </mat-tab-group>
     <div class="add">
         <h2>Add a Company</h2>
-        <form [formGroup]="addCompanyForm">
+        <form [formGroup]="addCompanyForm" (ngSubmit)="addCompany(formDirective)" #formDirective="ngForm">
             <mat-form-field appearance="outline">
                 <mat-label>Name</mat-label>
                 <input type="text" matInput formControlName="name" required>
@@ -107,12 +107,11 @@
                 <input type="text" matInput formControlName="password" required>
                 <mat-error>Password is required !</mat-error>
             </mat-form-field><br>
-            <button mat-raised-button type="submit" [disabled]="!addCompanyForm.valid" (click)="addCompany()">Add
-                Company</button>
+            <button mat-raised-button type="submit" [disabled]="!addCompanyForm.valid">Add Company</button>
             <br><br>
         </form>
         <h2>Add a Customer</h2>
-        <form [formGroup]="addCustomerForm">
+        <form [formGroup]="addCustomerForm" (ngSubmit)="addCustomer(formDirective1)" #formDirective1="ngForm">
             <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
                 <input type="text" matInput formControlName="firstName" required>
@@ -135,7 +134,7 @@
                 <mat-error>Password is required !</mat-error>
             </mat-form-field><br>
             <!-- <span>{{addCustomerMessage}}</span><br> -->
-            <button mat-raised-button [disabled]="!addCustomerForm.valid" (click)="addCustomer()">Add Customer</button>
+            <button mat-raised-button type="submit" [disabled]="!addCustomerForm.valid">Add Customer</button>
             <br><br>
         </form>
     </div>

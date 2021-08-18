@@ -9,7 +9,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError} from 'rxjs/operators';
-import { LoginService } from './services/login.service';
+import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -29,15 +29,11 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
             this.router.navigate(['main']);
             alert(errorMessage);
           }
-          // if(error.status== 0){
-          //   let errorMessage = 'Unknown Error ! maybe check the connection or come back later...';
-          //   this.router.navigate(['main']);
-          //   alert(errorMessage);
-          // } 
           else {
             return throwError(error);
           }
         })
       );
   }
+  
 }
