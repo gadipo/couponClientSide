@@ -64,6 +64,7 @@ export class AdminComponent implements OnInit {
       // if (this.companyEmail == '' || this.companyEmail == null || this.companyEmail == undefined) {
       this.service.getAllCompanies().subscribe((comps) => {
         this.companies = comps;
+        this.companies.sort((a,b)=>(a.name>b.name?1:-1));
         this.messageForUser = null;
       }, (err) => {
         console.log(err);
@@ -87,6 +88,7 @@ export class AdminComponent implements OnInit {
     if (this.searchCustomerForm.controls['email'].value == '' || this.searchCustomerForm.controls['email'].value == null) {
       this.service.getAllCustomers().subscribe((cusz) => {
         this.customers = cusz;
+        this.customers.sort((a,b)=>(a.lastName>b.lastName?1:-1));
         this.messageForUser = null;
       }, (err) => {
         this.messageForUser = err.error;
